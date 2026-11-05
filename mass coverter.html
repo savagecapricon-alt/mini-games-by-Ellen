@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mass Converter</title>
+    <!-- internal CSS styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #bbdce9;
+        }
+
+        .box {
+            background-color: rgb(129, 206, 220);
+            width: 320px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #030011;
+            border-radius: 60px;
+        }
+
+        input, select, button {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 30px;
+        }
+
+        #result {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 15px;
+            border-radius: 30px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Grams Converter</h2>
+        <label>Enter Grams (g):</label>
+        <input type="number" id="gramInput" placeholder="Type grams here...">
+
+        <!-- Choose what to convert into -->
+        <label>Convert to:</label>
+        <select id="unitSelect">
+            <option value="kg">Kilograms (kg)</option>
+            <option value="lb">Pounds (lbs)</option>
+        </select>
+        <button onclick="convertMass()">Convert</button>
+        <div id="result">Result will show here</div>
+    </div>
+<!-- JavaScript logic for conversion -->
+    <script>
+        function convertMass() {
+            // Get what the user typed in the gram box
+            var gramValue = document.getElementById("gramInput");
+            var selectedUnit = document.getElementById("unitSelect").value;
+            var resultBox = document.getElementById("result");
+
+            // Check if the user left it blank
+            if (gramValue.value === "") {
+                resultBox.innerHTML = "Please type a number first!";
+            } else {
+                var answer = 0;
+
+                // Check if they want Kilograms or Pounds
+                if (selectedUnit === "kg") {
+                    // Formula: Grams divided by 1000 = Kilograms
+                    answer = gramValue.value / 1000;
+                    resultBox.innerHTML = gramValue.value + " g = " + answer + " kg";
+                } else {
+                    // Formula: Grams divided by 453.6 = Pounds
+                    answer = gramValue.value / 453.6;
+                    
+                    answer = answer.toFixed(2);
+                    resultBox.innerHTML = gramValue.value + " g = " + answer + " lbs";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
