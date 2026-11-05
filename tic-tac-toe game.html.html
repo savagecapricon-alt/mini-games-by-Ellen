@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ellen's Tic Tac Toe Game</title>
+    <!--styled with internal CSS from line 6 to 55-->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ebdfe4;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #board {
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            display: flex;
+            flex-wrap: wrap;
+            border: 2px solid #e678a4;
+            background-color: #fff;
+        }
+
+        .square {
+            width: 98px;
+            height: 98px;
+            border: 1px solid #e678a4;
+            font-size: 50px;
+            font-weight: bold;
+            line-height: 100px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .square:hover {
+            background-color: #e6e6e6;
+        }
+
+        #status {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<!--the main game board-->
+    <h1>Tic Tac Toe</h1>
+    <div id="status">Turn: Player X</div>
+    
+    <div id="board">
+        <div class="square" onclick="play(0)"></div>
+        <div class="square" onclick="play(1)"></div>
+        <div class="square" onclick="play(2)"></div>
+        <div class="square" onclick="play(3)"></div>
+        <div class="square" onclick="play(4)"></div>
+        <div class="square" onclick="play(5)"></div>
+        <div class="square" onclick="play(6)"></div>
+        <div class="square" onclick="play(7)"></div>
+        <div class="square" onclick="play(8)"></div>
+    </div>
+<!--from here below is javascript logic for the game-->
+    <button onclick="restart()">Reset Game</button>
+
+    <script>
+        var board = ["", "", "", "", "", "", "", "", ""];
+        var turn = "X";
+        var gameOver = false;
+
+        function play(index) {
+            if (board[index] === "" && !gameOver) {
+                board[index] = turn;
+                var squares = document.getElementsByClassName("square");
+                squares[index].innerHTML = turn;
+
+                if (checkWinner()) {
+                    document.getElementById("status").innerHTML = "Player " + turn + " Wins!";
+                    gameOver = true;
+                } else if (checkDraw()) {
+                    document.getElementById("status").innerHTML = "It's a Draw!";
+                    gameOver = true;
+                } else {
+                    if (turn === "X") {
+                        turn = "O";
+                    } else {
+                        turn = "X";
+                    }
+                    document.getElementById("status").innerHTML = "Turn: Player " + turn;
+                }
+            }
+        }
+
+        function checkWinner() {
+            var wins = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Array of winning combinations - Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Array of winning combinations - Columns
+                [0, 4, 8], [2, 4, 6]              // Array of winning combinations - Diagonals
+            ];
+
+            for (var i = 0; i < wins.length; i++) {
+                var a = wins[i][0];
+                var b = wins[i][1];
+                var c = wins[i][2];
+
+                if (board[a] !== "" && board[a] === board[b] && board[a] === board[c]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function checkDraw() {
+            for (var i = 0; i < board.length; i++) {
+                if (board[i] === "") {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function restart() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            turn = "X";
+            gameOver = false;
+            document.getElementById("status").innerHTML = "Turn: Player X";
+            
+            var squares = document.getElementsByClassName("square");
+            for (var i = 0; i < squares.length; i++) {
+                squares[i].innerHTML = "";
+            }
+        }
+    </script>
+
+</body>
+</html>
